@@ -1,0 +1,20 @@
+
+**2. backend/app/main.py**
+```python
+from fastapi import FastAPI, UploadFile, Form
+from .tax_calculator import judge_income
+
+app = FastAPI(
+    title="日本デジタルノマドビザ 税制判定API",
+    version="2026.5.0",
+    description="税後年収1,000万円判定エンジン"
+)
+
+@app.post("/judge-income")
+async def judge(
+    file: UploadFile,
+    country_code: str = Form("RO"),
+    client_id: str = Form(...)
+):
+    result = await judge_income(file, country_code, client_id)
+    return result
